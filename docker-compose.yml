@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  pandora:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: pandora
+#    image: pengzhile/pandora
+    container_name: pandora
+    environment:
+      TZ: Asia/Shanghai
+      PANDORA_VERBOSE: True
+      PANDORA_SERVER: 0.0.0.0:9999
+    volumes:
+      - ./src:/opt/app/src
+      - ./bin:/opt/app/bin
+      - ./doc:/opt/app/doc
+      - ./token:/opt/app/token
+      - ./data:/data
+    network_mode: "host"
