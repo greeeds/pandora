@@ -2,6 +2,7 @@
 
 import argparse
 import os
+from os import getenv
 
 from loguru import logger
 from rich.prompt import Prompt, Confirm
@@ -12,11 +13,9 @@ from .bots.server import ChatBot as ChatBotServer
 from .exts import sentry
 from .exts.config import USER_CONFIG_DIR
 from .exts.hooks import hook_except_handle
-from .migrations import migrate
 from .openai.api import ChatGPT
 from .openai.auth import Auth0
 from .openai.utils import Console
-from .turbo.chat import TurboGPT
 
 if 'nt' == os.name:
     import pyreadline3 as readline
@@ -152,13 +151,21 @@ def main():
     if args.sentry:
         sentry.init(args.proxy)
 
-    migrate.do_migrate()
+    if args.api:
+        try:
+            from .openai.token import gpt_num_tokens
+            from .migrations.migrate import do_migrate
+
+            do_migrate()
+        except (ImportError, ModuleNotFoundError):
+            Console.error_bh('You need `pip install Pandora-ChatGPT[api]` to support API mode.')
+            return
 
     access_token, need_save = confirm_access_token(args.token_file, args.server)
     if not access_token:
         Console.info_b('Please enter your email and password to log in ChatGPT!')
-        email = Prompt.ask('  Email')
-        password = Prompt.ask('  Password', password=True)
+        email = getenv('OPENAI_EMAIL') or Prompt.ask('  Email')
+        password = getenv('OPENAI_PASSWORD') or Prompt.ask('  Password', password=True)
         Console.warn('### Do login, please wait...')
         access_token = Auth0(email, password, args.proxy).auth()
 
@@ -167,6 +174,8 @@ def main():
             save_access_token(access_token)
 
     if args.api:
+        from .turbo.chat import TurboGPT
+
         chatgpt = TurboGPT(access_token, args.proxy)
     else:
         chatgpt = ChatGPT(access_token, args.proxy)
