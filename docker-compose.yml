@@ -10,8 +10,9 @@ services:
     container_name: pandora
     environment:
       TZ: Asia/Shanghai
-      PANDORA_VERBOSE: True
+      PANDORA_VERBOSE: "True"
       PANDORA_SERVER: 0.0.0.0:9999
+      PANDORA_CLOUD: "True"
     volumes:
       - ./src:/opt/app/src
       - ./bin:/opt/app/bin
