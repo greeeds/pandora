@@ -5,9 +5,9 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: pandora
+    image: pandora_server
 #    image: pengzhile/pandora
-    container_name: pandora
+    container_name: pandora_server
     environment:
       TZ: Asia/Shanghai
       PANDORA_VERBOSE: "True"
