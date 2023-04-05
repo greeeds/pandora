@@ -49,7 +49,7 @@ def save_access_token(access_token):
         print()
 
 
-def confirm_access_token(token_file=None, silence=False):
+def confirm_access_token(token_file=None, silence=False, api=False):
     app_token_file = os.path.join(USER_CONFIG_DIR, 'access_token.dat')
 
     app_token_file_exists = os.path.isfile(app_token_file)
@@ -72,7 +72,7 @@ def confirm_access_token(token_file=None, silence=False):
                                                  choices=['y', 'n', 'del'], default='y')
         if 'y' == confirm:
             access_token = read_access_token(app_token_file)
-            if not check_access_token_out(access_token):
+            if not check_access_token_out(access_token, api):
                 os.remove(app_token_file)
                 return None, True
 
@@ -88,9 +88,10 @@ def main():
 
     Console.debug_b(
         '''
-          Pandora - A command-line interface to ChatGPT
-          Github: https://github.com/pengzhile/pandora
-          Version: {}'''.format(__version__), end=''
+            Pandora - A command-line interface to ChatGPT
+            Github: https://github.com/pengzhile/pandora
+            Get access token: https://chat.gateway.do/auth
+            Version: {}'''.format(__version__), end=''
     )
 
     parser = argparse.ArgumentParser()
@@ -128,6 +129,12 @@ def main():
         action='store_true',
     )
     parser.add_argument(
+        '-l',
+        '--local',
+        help='Login locally. Pay attention to the risk control of the login ip!',
+        action='store_true',
+    )
+    parser.add_argument(
         '--sentry',
         help='Enable sentry to send error reports when errors occur.',
         action='store_true',
@@ -157,16 +164,17 @@ def main():
             Console.error_bh('### You need `pip install Pandora-ChatGPT[api]` to support API mode.')
             return
 
-    access_token, need_save = confirm_access_token(args.token_file, args.server)
+    access_token, need_save = confirm_access_token(args.token_file, args.server, args.api)
     if not access_token:
         Console.info_b('Please enter your email and password to log in ChatGPT!')
-        Console.warn('We login via https://chat.gateway.do, but it doesn\'t retain your data.')
+        if not args.local:
+            Console.warn('We login via https://chat.gateway.do, but it doesn\'t retain your data.')
         email = getenv('OPENAI_EMAIL') or Prompt.ask('  Email')
         password = getenv('OPENAI_PASSWORD') or Prompt.ask('  Password', password=True)
         Console.warn('### Do login, please wait...')
-        access_token = Auth0(email, password, args.proxy).auth()
+        access_token = Auth0(email, password, args.proxy).auth(args.local)
 
-    if not check_access_token_out(access_token):
+    if not check_access_token_out(access_token, args.api):
         return
 
     if need_save:
