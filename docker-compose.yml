@@ -13,10 +13,8 @@ services:
       PANDORA_VERBOSE: "True"
       PANDORA_SERVER: 0.0.0.0:9999
       PANDORA_CLOUD: "True"
+      PANDORA_THREADS: 128
     volumes:
-      - ./src:/opt/app/src
       - ./bin:/opt/app/bin
-      - ./doc:/opt/app/doc
-      - ./token:/opt/app/token
       - ./data:/data
     network_mode: "host"
