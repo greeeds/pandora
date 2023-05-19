@@ -17,6 +17,7 @@
 
 ## 体验地址
 * 点击 <a href="https://chat.zhile.io" target="_blank" title="Pandora Cloud体验地址">https://chat.zhile.io</a>
+* 最新拿 `Access Token` 的技术原理，我记录在[这里](https://zhile.io/2023/05/19/how-to-get-chatgpt-access-token-via-pkce.html)了。
 * 可以访问 [这里](http://ai.fakeopen.com/auth) 拿 `Access Token`
 * 也可以官方登录，然后访问 [这里](http://chat.openai.com/api/auth/session) 拿 `Access Token`
 * `Access Token` 有效期 `14` 天，期间访问**不需要梯子**。这意味着你在手机上也可随意使用。
@@ -61,7 +62,7 @@
   <summary>
 
   ![alt Screenshot5](https://github.com/pengzhile/pandora/raw/master/doc/images/s05.png)<br>
-  ![alt Screenshot10](https://github.com/pengzhile/pandora/raw/master/doc/images/s10.jpeg)
+  ![alt Screenshot10](https://github.com/pengzhile/pandora/raw/master/doc/images/s12.jpeg)
 
   </summary>
 
@@ -80,6 +81,7 @@
 
 ## 其他说明
 
+* `开源项目可以魔改，但请保留原作者信息。确需去除，请联系作者，以免失去技术支持。`
 * 项目是站在其他巨人的肩膀上，感谢！
 * 报错、BUG之类的提出`Issue`，我会修复。
 * 因为之后`ChatGPT`的API变动，我可能不会跟进修复。
