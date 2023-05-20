@@ -40,12 +40,16 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 
     ```shell
     pip install 'pandora-chatgpt[api]'
+    // OR
+    pip install pandora-chatgpt[api]
     pandora
     ```
   * `cloud` mode:
 
     ```shell
     pip install 'pandora-chatgpt[cloud]'
+    // OR
+    pip install pandora-chatgpt[cloud]
     pandora-cloud
     ```
 
@@ -60,6 +64,8 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 
     ```shell
     pip install '.[api]'
+    // OR
+    pip install .[api]
     pandora
     ```
   
@@ -67,6 +73,8 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 
     ```shell
     pip install '.[cloud]'
+    // OR
+    pip install .[cloud]
     pandora-cloud
     ```
 
@@ -116,10 +124,10 @@ These docker environment variables will override start parameters.
 
 * no need for proxy if login with `Access Token`.
 * you could obtain your access token safely with [this service](https://ai.fakeopen.com/auth).
-* `Access Token` has a expiration time as `1 month`, you could save it and keep using within this period.
+* `Access Token` has a expiration time as `14 days`, you could save it and keep using within this period.
 * leaking your `Access Token` will lead to loss of your account.
 
-## HTTP RESTful API
+## HTTP RESTFUL API
 
 * if you start Pandora with `-s`/`--server`/`PANDORA_SERVER`, you could access a web UI with `http://ip:port`.
 * you could switch access token by passing a different one with `http://ip:port/?token=xxx`.
