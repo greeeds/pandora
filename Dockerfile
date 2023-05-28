@@ -1,9 +1,13 @@
-FROM python:3.7-slim
+FROM python:3.9-slim
 
 MAINTAINER "Neo Peng <pengzhile@gmail.com>"
 
 VOLUME /data
+
 WORKDIR /opt/app
+
 ADD . .
-RUN pip install --upgrade pip && pip install .[api] && pip install dist/Pandora_Cloud-0.2.2-py3-none-any.whl
+
+RUN pip --no-cache-dir install --upgrade pip && pip --no-cache-dir install .[api,cloud]
+
 ENTRYPOINT ["bin/startup.sh"]
