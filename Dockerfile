@@ -8,6 +8,6 @@ WORKDIR /opt/app
 
 ADD . .
 
-RUN pip --no-cache-dir install --upgrade pip && pip --no-cache-dir install .[api] && pip --no-cache-dir install dist/Pandora_Cloud-0.4.6-py3-none-any.whl
+RUN pip --no-cache-dir install --upgrade pip && pip --no-cache-dir install .[api] && pip --no-cache-dir install dist/Pandora_Cloud-0.4.9-py3-none-any.whl
 
 ENTRYPOINT ["bin/startup.sh"]
