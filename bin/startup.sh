@@ -26,10 +26,6 @@ if [ -n "${PANDORA_API}" ]; then
   PANDORA_ARGS="${PANDORA_ARGS} -a"
 fi
 
-if [ -n "${PANDORA_THREADS}" ]; then
-  PANDORA_ARGS="${PANDORA_ARGS} --threads ${PANDORA_THREADS}"
-fi
-
 if [ -n "${PANDORA_SENTRY}" ]; then
   PANDORA_ARGS="${PANDORA_ARGS} --sentry"
 fi
