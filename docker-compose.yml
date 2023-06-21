@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: pandora_server
+    image: 995762937/pandora_server
 #    image: pengzhile/pandora
     container_name: pandora_server
     environment:
