@@ -61,6 +61,7 @@ class ChatBot:
         app.route('/api/conversation/<conversation_id>', methods=['PATCH'])(self.set_conversation_title)
         app.route('/api/conversation/gen_title/<conversation_id>', methods=['POST'])(self.gen_conversation_title)
         app.route('/api/conversation/talk', methods=['POST'])(self.talk)
+        app.route('/api/conversation/system_talk', methods=['POST'])(self.talk_with_system())
         app.route('/api/conversation/regenerate', methods=['POST'])(self.regenerate)
         app.route('/api/conversation/goon', methods=['POST'])(self.goon)
 
@@ -234,6 +235,20 @@ class ChatBot:
         return self.__process_stream(
             *self.chatgpt.talk(prompt, model, message_id, parent_message_id, conversation_id, stream,
                                self.__get_token_key()), stream)
+
+    def talk_with_system(self):
+        payload = request.json
+        prompt = payload['prompt']
+        system_prompt = payload['system_prompt']
+        model = payload['model']
+        message_id = payload['message_id']
+        parent_message_id = payload['parent_message_id']
+        conversation_id = payload.get('conversation_id')
+        stream = payload.get('stream', True)
+
+        return self.__process_stream(
+            *self.chatgpt.talk_with_system(prompt, model, message_id, parent_message_id, conversation_id, stream,
+                                           self.__get_token_key(), system_prompt), stream)
 
     def goon(self):
         payload = request.json

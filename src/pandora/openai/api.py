@@ -5,6 +5,7 @@ import json
 import queue as block_queue
 import threading
 from os import getenv
+import uuid
 
 import httpx
 import requests
@@ -243,6 +244,62 @@ class ChatGPT(API):
             'parent_message_id': parent_message_id,
         }
 
+        if conversation_id:
+            data['conversation_id'] = conversation_id
+
+        return self.__request_conversation(data, token)
+
+    def talk_with_system(self, prompt, model, message_id, parent_message_id, conversation_id=None,
+                         stream=True, token=None, system_prompt=None):
+        if system_prompt is not None:
+            data = {
+                'action': 'next',
+                'messages': [
+                    {
+                        'id': str(uuid.uuid4()),
+                        'role': 'system',
+                        'author': {
+                            'role': 'system',
+                        },
+                        'content': {
+                            'content_type': 'text',
+                            'parts': [system_prompt],
+                        },
+                    },
+                    {
+                        'id': message_id,
+                        'role': 'user',
+                        'author': {
+                            'role': 'user',
+                        },
+                        'content': {
+                            'content_type': 'text',
+                            'parts': [prompt],
+                        },
+                    }
+                ],
+                'model': model,
+                'parent_message_id': parent_message_id,
+            }
+        else:
+            data = {
+                'action': 'next',
+                'messages': [
+                    {
+                        'id': message_id,
+                        'role': 'user',
+                        'author': {
+                            'role': 'user',
+                        },
+                        'content': {
+                            'content_type': 'text',
+                            'parts': [prompt],
+                        },
+                    }
+                ],
+                'model': model,
+                'parent_message_id': parent_message_id,
+            }
         if conversation_id:
             data['conversation_id'] = conversation_id
 
