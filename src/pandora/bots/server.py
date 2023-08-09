@@ -61,7 +61,7 @@ class ChatBot:
         app.route('/api/conversation/<conversation_id>', methods=['PATCH'])(self.set_conversation_title)
         app.route('/api/conversation/gen_title/<conversation_id>', methods=['POST'])(self.gen_conversation_title)
         app.route('/api/conversation/talk', methods=['POST'])(self.talk)
-        app.route('/api/conversation/system_talk', methods=['POST'])(self.talk_with_system())
+        app.route('/api/conversation/system_talk', methods=['POST'])(self.talk_with_system)
         app.route('/api/conversation/regenerate', methods=['POST'])(self.regenerate)
         app.route('/api/conversation/goon', methods=['POST'])(self.goon)
 
